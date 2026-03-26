@@ -10,57 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_14_085028) do
+ActiveRecord::Schema[8.0].define(version: 0) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "answers", force: :cascade do |t|
-    t.bigint "response_id", null: false
-    t.bigint "question_id", null: false
-    t.bigint "option_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["option_id"], name: "index_answers_on_option_id"
-    t.index ["question_id"], name: "index_answers_on_question_id"
-    t.index ["response_id"], name: "index_answers_on_response_id"
-  end
-
-  create_table "options", force: :cascade do |t|
-    t.bigint "question_id", null: false
-    t.string "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_options_on_question_id"
-  end
-
-  create_table "questions", force: :cascade do |t|
-    t.bigint "survey_id", null: false
-    t.string "text"
-    t.string "question_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["survey_id"], name: "index_questions_on_survey_id"
-  end
-
-  create_table "responses", force: :cascade do |t|
-    t.bigint "survey_id", null: false
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["survey_id"], name: "index_responses_on_survey_id"
-  end
-
-  create_table "surveys", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_foreign_key "answers", "options"
-  add_foreign_key "answers", "questions"
-  add_foreign_key "answers", "responses"
-  add_foreign_key "options", "questions"
-  add_foreign_key "questions", "surveys"
-  add_foreign_key "responses", "surveys"
 end
