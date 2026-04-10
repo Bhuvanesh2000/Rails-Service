@@ -10,8 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 0) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_27_172159) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
+  create_table "requests", force: :cascade do |t|
+    t.string "idempotency_key", null: false
+    t.string "status", default: "pending", null: false
+    t.string "request_type", null: false
+    t.integer "external_id", null: false
+    t.integer "attempts", default: 0, null: false
+    t.integer "max_attempts", default: 5, null: false
+    t.jsonb "payload", default: {}, null: false
+    t.string "error_message"
+    t.jsonb "response"
+    t.datetime "locked_at"
+    t.integer "lock_version", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["idempotency_key"], name: "index_requests_on_idempotency_key", unique: true
+    t.index ["status"], name: "index_requests_on_status"
+  end
 end

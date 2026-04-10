@@ -1,7 +1,12 @@
+require "sidekiq/web"
 Rails.application.routes.draw do
-  resources :surveys, only: [:create, :index]
-  
-  resources :responses, only: [:create, :show, :update]
-  
-  get 'responses/user/:user_id/survey/:survey_id', to: 'responses#user_responses'
+  namespace :api do
+    namespace :v1 do
+      get "requests/:id", to: "requests#show"
+      post "requests", to: "requests#create"
+      post "requests/:id/cancel", to: "requests#cancel"
+    end
+  end
+
+  mount Sidekiq::Web => "/sidekiq"
 end
